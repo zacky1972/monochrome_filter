@@ -1,7 +1,7 @@
 #include "monochrome32i.h"
 #include <stdint.h>
 
-#if ! (defined(__arm64__) || defined(__arm__))
+#if ! (defined(__arm64__) || defined(__aarch64__))
 void monochrome32i(uint64_t size, uint8_t *in, uint8_t *out)
 {
     uint8_t *pin = in;
@@ -16,7 +16,7 @@ void monochrome32i(uint64_t size, uint8_t *in, uint8_t *out)
         *pout++ = m;
     }
 }
-#else // (defined(__arm64__) || defined(__arm__))
+#else // (defined(__arm64__) || defined(__aarch64__))
 
 #include <arm_neon.h>
 
