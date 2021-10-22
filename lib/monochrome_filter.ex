@@ -39,7 +39,7 @@ defmodule MonochromeFilter do
 
   defn init_pixel() do
     Nx.tensor([0x9f, 0x5a, 0xae], type: {:u, 8})
-    |> broadcast_vector(Nx.iota({3, 256}))
+    |> broadcast_vector(Nx.iota({3, 65536}))
     |> Nx.transpose()
   end
 end
