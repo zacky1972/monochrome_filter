@@ -9,7 +9,7 @@ void monochrome32(uint64_t size, uint8_t *in, uint8_t *out)
         uint8_t r = *pin++;
         uint8_t g = *pin++;
         uint8_t b = *pin++;
-        uint8_t m = r * 0.399f + g * 0.587f + b * 0.114f;
+        uint8_t m = r * 0.299f + g * 0.587f + b * 0.114f;
         *pout++ = m;
         *pout++ = m;
         *pout++ = m;

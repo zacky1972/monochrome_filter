@@ -28,8 +28,8 @@ LBB0_5:
 	mov	x10, x2
 LBB0_6:
 	sub	x8, x0, x8
-	mov	w11, #18874
-	movk	w11, #16076, lsl #16
+	mov	w11, #5767
+	movk	w11, #16025, lsl #16
 	mov	w12, #17826
 	movk	w12, #16150, lsl #16
 	mov	w13, #30933
@@ -61,8 +61,8 @@ LBB0_8:
 	ret
 LBB0_9:
 	and	x8, x0, #0xfffffffffffffff0
-	mov	w9, #18874
-	movk	w9, #16076, lsl #16
+	mov	w9, #5767
+	movk	w9, #16025, lsl #16
 	dup.4s	v0, w9
 	mov	w9, #17826
 	movk	w9, #16150, lsl #16
@@ -211,8 +211,8 @@ LBB0_14:
 	add	x11, x2, x12
 	add	x12, x1, x12
 	sub	x13, x13, x8
-	mov	w14, #18874
-	movk	w14, #16076, lsl #16
+	mov	w14, #5767
+	movk	w14, #16025, lsl #16
 	dup.4s	v0, w14
 	mov	w14, #17826
 	movk	w14, #16150, lsl #16

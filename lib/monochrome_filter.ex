@@ -18,7 +18,7 @@ defmodule MonochromeFilter do
   defn monochrome_filter_32(pixel) do
     assert_shape_pattern pixel, {_, 3}
 
-    mono = Nx.tensor([0.399, 0.587, 0.114], type: {:f, 32})
+    mono = Nx.tensor([0.299, 0.587, 0.114], type: {:f, 32})
     pixel_m = Nx.dot(pixel, mono)
 
     broadcast_vector(pixel_m, pixel)
@@ -29,7 +29,7 @@ defmodule MonochromeFilter do
   defn monochrome_filter_16(pixel) do
     assert_shape_pattern pixel, {_, 3}
 
-    mono = Nx.tensor([0.399, 0.587, 0.114], type: {:f, 16})
+    mono = Nx.tensor([0.299, 0.587, 0.114], type: {:f, 16})
     pixel_m = Nx.dot(pixel, mono)
 
     broadcast_vector(pixel_m, pixel)
