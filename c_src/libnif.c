@@ -2,21 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <erl_nif.h>
-
-void monochrome32(uint64_t size, uint8_t *in, uint8_t *out)
-{
-    uint8_t *pin = in;
-    uint8_t *pout = out;
-    for(u_int64_t i = 0; i < size; i++) {
-        uint8_t r = *pin++;
-        uint8_t g = *pin++;
-        uint8_t b = *pin++;
-        uint8_t m = r * 0.399f + g * 0.587f + b * 0.114f;
-        *pout++ = m;
-        *pout++ = m;
-        *pout++ = m;
-    }
-}
+#include "monochrome32.h"
 
 static ERL_NIF_TERM monochrome32_nif(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[])
 {

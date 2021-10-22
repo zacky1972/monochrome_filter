@@ -30,7 +30,7 @@ ERL_LDFLAGS ?= -L$(ERL_EI_LIBDIR)
 
 CFLAGS += -std=c11 -O3 -Wall -Wextra -Wno-unused-function -Wno-unused-parameter -Wno-missing-field-initializers
 
-SRC = c_src/libnif.c
+SRC = c_src/libnif.c c_src/monochrome32.c
 OBJ = $(SRC:c_src/%.c=$(BUILD)/%.o)
 
 all: $(PRIV) $(BUILD) $(NIF)
