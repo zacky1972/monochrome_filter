@@ -28,10 +28,12 @@ end
 input = MonochromeFilter.init_pixel()
 result = MonochromeFilter.monochrome_filter_32(input)
 ^result = MonochromeFilter.monochrome_filter_16(input)
+^result = MonochromeFilterNif.monochrome32(input)
 
 benches =   %{
   "Nx 32" => fn -> MonochromeFilter.monochrome_filter_32(input) end,
   "Nx 16" => fn -> MonochromeFilter.monochrome_filter_16(input) end,
+  "nif 32" => fn -> MonochromeFilterNif.monochrome32(input) end,
   "xla jit-cpu 32" => fn -> Mono.host32(input) end,
   "xla jit-cpu 16" => fn -> Mono.host16(input) end
 }
