@@ -33,11 +33,11 @@ CFLAGS += -std=c11 -O3 -Wall -Wextra -Wno-unused-function -Wno-unused-parameter 
 SRC = c_src/libnif.c c_src/monochrome32.c
 OBJ = $(SRC:c_src/%.c=$(BUILD)/%.o)
 
-ifeq ($(shell uname -m),arm64)
-ASM = c_src/arm64/monochrome32.s
-else
-ASM = 
-endif
+ASM_arm64 = c_src/arm64/monochrome32.s
+ASM_aarch64 = c_src/arm64/monochrome32.s
+ASM_x86_64 = 
+
+ASM = ${ASM_$(shell uname -m)}
 
 all: $(PRIV) $(BUILD) $(NIF) $(ASM)
 
@@ -49,6 +49,11 @@ $(BUILD)/%.o: c_src/%.c
 	$(CC) -c $(ERL_CFLAGS) $(CFLAGS) -o $@ $<
 
 ifeq ($(shell uname -m),arm64)
+c_src/arm64/%.s: c_src/%.c
+	$(CC) -S $(ERL_CFLAGS) $(CFLAGS) -o $@ $<
+endif
+
+ifeq ($(shell uname -m),aarch64)
 c_src/arm64/%.s: c_src/%.c
 	$(CC) -S $(ERL_CFLAGS) $(CFLAGS) -o $@ $<
 endif
