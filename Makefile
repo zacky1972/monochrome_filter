@@ -33,7 +33,13 @@ CFLAGS += -std=c11 -O3 -Wall -Wextra -Wno-unused-function -Wno-unused-parameter 
 SRC = c_src/libnif.c c_src/monochrome32.c
 OBJ = $(SRC:c_src/%.c=$(BUILD)/%.o)
 
-all: $(PRIV) $(BUILD) $(NIF)
+ifeq ($(shell uname -m),arm64)
+ASM = c_src/arm64/monochrome32.s
+else
+ASM = 
+endif
+
+all: $(PRIV) $(BUILD) $(NIF) $(ASM)
 
 $(PRIV) $(BUILD):
 	mkdir -p $@
@@ -41,6 +47,11 @@ $(PRIV) $(BUILD):
 $(BUILD)/%.o: c_src/%.c
 	@echo " CC $(notdir $@)"
 	$(CC) -c $(ERL_CFLAGS) $(CFLAGS) -o $@ $<
+
+ifeq ($(shell uname -m),arm64)
+c_src/arm64/%.s: c_src/%.c
+	$(CC) -S $(ERL_CFLAGS) $(CFLAGS) -o $@ $<
+endif
 
 $(NIF): $(OBJ)
 	@echo " LD $(notdir $@)"
