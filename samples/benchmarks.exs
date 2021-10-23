@@ -23,19 +23,27 @@ defmodule Mono do
 
   @defn_compiler {EXLA, client: :cuda, run_options: [keep_on_device: true]}
   defn cuda_keep16(n), do: MonochromeFilter.monochrome_filter_16(n)
+
+  def assert_result(expected, actual, message) do
+    if Nx.subtract(expected, actual) |> Nx.abs() |> Nx.reduce_max() > 1 do
+      IO.puts message
+    end
+  end
 end
 
-input = MonochromeFilter.init_pixel()
+input = MonochromeFilter.init_random_pixel()
 result = MonochromeFilter.monochrome_filter_32(input)
-^result = MonochromeFilter.monochrome_filter_16(input)
-^result = MonochromeFilterNif.monochrome32(input)
-^result = MonochromeFilterNif.monochrome32i(input)
+Mono.assert_result(result, MonochromeFilter.monochrome_filter_16(input), "MonochromeFilter.monochrome_filter_16")
+Mono.assert_result(result, MonochromeFilterNif.monochrome32(input), "MonochromeFilterNif.monochrome32")
+Mono.assert_result(result, MonochromeFilterNif.monochrome32i(input), "MonochromeFilterNif.monochrome32i")
+Mono.assert_result(result, MonochromeFilterNif.monochrome32ip(input), "MonochromeFilterNif.monochrome32ip")
 
 benches =   %{
   "Nx 32" => fn -> MonochromeFilter.monochrome_filter_32(input) end,
   "Nx 16" => fn -> MonochromeFilter.monochrome_filter_16(input) end,
   "nif 32" => fn -> MonochromeFilterNif.monochrome32(input) end,
   "nif 32 intrinsics" => fn -> MonochromeFilterNif.monochrome32i(input) end,
+  "nif 32 intrinsics with pipeline" => fn -> MonochromeFilterNif.monochrome32ip(input) end,
   "xla jit-cpu 32" => fn -> Mono.host32(input) end,
   "xla jit-cpu 16" => fn -> Mono.host16(input) end
 }
