@@ -21,7 +21,7 @@ static const __fp16 mono_r = 0.299;
 static const __fp16 mono_g = 0.587;
 static const __fp16 mono_b = 0.114;
 
-void monochrome16(uint64_t size, uint8_t *in, uint8_t *out)
+void monochrome16i(uint64_t size, uint8_t *in, uint8_t *out)
 {
     uint8_t *pin = in;
     uint8_t *pout = out;
