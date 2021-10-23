@@ -1,6 +1,6 @@
 # MonochromeFilter
 
-**TODO: Add description**
+Sample Nx and SIMD program of monochrome filter.
 
 ## Installation
 
