@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 #if ! defined(__arm64__)
-void monochrome16(uint64_t size, uint8_t *in, uint8_t *out)
+void monochrome16i(uint64_t size, uint8_t *in, uint8_t *out)
 {
     uint8_t *pin = in;
     uint8_t *pout = out;
