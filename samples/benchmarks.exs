@@ -24,9 +24,16 @@ defmodule Mono do
   @defn_compiler {EXLA, client: :cuda, run_options: [keep_on_device: true]}
   defn cuda_keep16(n), do: MonochromeFilter.monochrome_filter_16(n)
 
+  defn sub_abs_max(a, b) do
+    Nx.subtract(a, b)
+    |> Nx.as_type({:s, 8})
+    |> Nx.abs()
+    |> Nx.reduce_max()
+  end
+
   def assert_result(expected, actual, message) do
-    if Nx.subtract(expected, actual) |> Nx.abs() |> Nx.reduce_max() > 1 do
-      IO.puts message
+    if Nx.to_scalar(sub_abs_max(expected, actual))  > 1 do
+      IO.puts "#{sub_abs_max(expected, actual)}: #{message}"
     end
   end
 end
