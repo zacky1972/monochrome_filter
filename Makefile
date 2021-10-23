@@ -30,11 +30,17 @@ ERL_LDFLAGS ?= -L$(ERL_EI_LIBDIR)
 
 CFLAGS += -std=c11 -O3 -Wall -Wextra -Wno-unused-function -Wno-unused-parameter -Wno-missing-field-initializers
 
-SRC = c_src/libnif.c c_src/monochrome16.c c_src/monochrome16i.c c_src/monochrome32.c c_src/monochrome32i.c c_src/monochrome32ip.c
-OBJ = $(SRC:c_src/%.c=$(BUILD)/%.o)
+SRC_arm64 = c_src/libnif.c c_src/monochrome16.c c_src/monochrome16i.c c_src/monochrome32.c c_src/monochrome32i.c c_src/monochrome32ip.c
+SRC_aarch64 = c_src/arm64/monochrome16i.s c_src/libnif.c c_src/monochrome16.c c_src/monochrome16i.c c_src/monochrome32.c c_src/monochrome32i.c c_src/monochrome32ip.c
+SRC_x86_64 = $(SRC_arm64)
+
+SRC = ${SRC_$(shell uname -m)}
+
+OBJ_T = $(SRC:c_src/%.c=$(BUILD)/%.o)
+OBJ = $(OBJ_T:c_src/arm64/%.s=$(BUILD)/%.o)
 
 ASM_arm64 = c_src/arm64/monochrome16.s c_src/arm64/monochrome16i.s c_src/arm64/monochrome32.s c_src/arm64/monochrome32i.s c_src/arm64/monochrome32ip.s
-ASM_aarch64 = $(ASM_arm64)
+ASM_aarch64 = c_src/arm64/monochrome16.s c_src/arm64/monochrome32.s c_src/arm64/monochrome32i.s c_src/arm64/monochrome32ip.s
 ASM_x86_64 = 
 
 ASM = ${ASM_$(shell uname -m)}
@@ -44,13 +50,17 @@ all: $(PRIV) $(BUILD) $(NIF) $(ASM)
 $(PRIV) $(BUILD):
 	mkdir -p $@
 
+$(BUILD)/%.o: c_src/arm64/%.s
+	@echo " ASM $(notdir $@)"
+	$(AS) -c -o $@ $<
+
 $(BUILD)/%.o: c_src/%.c
 	@echo " CC $(notdir $@)"
 	$(CC) -c $(ERL_CFLAGS) $(CFLAGS) -o $@ $<
 
 ifeq ($(shell uname -m),arm64)
 c_src/arm64/%.s: c_src/%.c
-	$(CC) -S $(ERL_CFLAGS) $(CFLAGS) -o $@ $<
+	$(CC) -S -no-integrated-as $(ERL_CFLAGS) $(CFLAGS) -o $@ $<
 endif
 
 ifeq ($(shell uname -m),aarch64)
