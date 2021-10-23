@@ -38,6 +38,7 @@ Mono.assert_result(result, MonochromeFilterNif.monochrome32(input), "MonochromeF
 Mono.assert_result(result, MonochromeFilterNif.monochrome32i(input), "MonochromeFilterNif.monochrome32i")
 Mono.assert_result(result, MonochromeFilterNif.monochrome32ip(input), "MonochromeFilterNif.monochrome32ip")
 Mono.assert_result(result, MonochromeFilterNif.monochrome16(input), "MonochromeFilterNif.monochrome16")
+Mono.assert_result(result, MonochromeFilterNif.monochrome16i(input), "MonochromeFilterNif.monochrome16i")
 
 benches =   %{
   "Nx 32" => fn -> MonochromeFilter.monochrome_filter_32(input) end,
@@ -46,6 +47,7 @@ benches =   %{
   "nif 32 intrinsics" => fn -> MonochromeFilterNif.monochrome32i(input) end,
   "nif 32 intrinsics with pipeline" => fn -> MonochromeFilterNif.monochrome32ip(input) end,
   "nif 16" => fn -> MonochromeFilterNif.monochrome16(input) end,
+  "nif 16 intrinsics" => fn -> MonochromeFilterNif.monochrome16i(input) end,
   "xla jit-cpu 32" => fn -> Mono.host32(input) end,
   "xla jit-cpu 16" => fn -> Mono.host16(input) end
 }
