@@ -42,4 +42,11 @@ defmodule MonochromeFilter do
     |> broadcast_vector(Nx.iota({3, 65536}))
     |> Nx.transpose()
   end
+
+  defn init_random_pixel() do
+    Nx.random_uniform({65536, 3})
+    |> Nx.multiply(255)
+    |> Nx.round()
+    |> Nx.as_type({:u, 8})
+  end
 end
