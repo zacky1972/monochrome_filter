@@ -30,10 +30,10 @@ ERL_LDFLAGS ?= -L$(ERL_EI_LIBDIR)
 
 CFLAGS += -std=c11 -O3 -Wall -Wextra -Wno-unused-function -Wno-unused-parameter -Wno-missing-field-initializers
 
-SRC = c_src/libnif.c c_src/monochrome32.c c_src/monochrome32i.c
+SRC = c_src/libnif.c c_src/monochrome32.c c_src/monochrome32i.c c_src/monochrome32ip.c
 OBJ = $(SRC:c_src/%.c=$(BUILD)/%.o)
 
-ASM_arm64 = c_src/arm64/monochrome32.s c_src/arm64/monochrome32i.s
+ASM_arm64 = c_src/arm64/monochrome32.s c_src/arm64/monochrome32i.s c_src/arm64/monochrome32ip.s
 ASM_aarch64 = $(ASM_arm64)
 ASM_x86_64 = 
 
