@@ -5,4 +5,4 @@
 
 void monochrome16(uint64_t size, uint8_t *in, uint8_t *out);
 
-#endif // MONOCHROME32_H
+#endif // MONOCHROME16_H
