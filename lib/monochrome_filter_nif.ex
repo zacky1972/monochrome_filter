@@ -91,4 +91,29 @@ defmodule MonochromeFilterNif do
   end
 
   def monochrome32ip_nif(_size, _x), do: raise("NIF monochrome32i_nif/2 not implemented")
+
+  def monochrome16(x) when is_struct(x, Nx.Tensor) do
+    if Nx.type(x) == {:u, 8} do
+      x
+    else
+      Nx.as_type(x, {:u, 8})
+    end
+    |> monochrome16_sub()
+  end
+
+  def monochrome16(x) when is_number(x) do
+    monochrome16(Nx.tensor([x]))
+  end
+
+  defp monochrome16_sub(t) do
+    %{
+      t
+      | data: %{
+          t.data
+          | state: monochrome16_nif(Nx.shape(t) |> elem(0), t.data.state)
+        }
+    }
+  end
+
+  def monochrome16_nif(_size, _x), do: raise("NIF monochrome16_nif/2 not implemented")
 end
