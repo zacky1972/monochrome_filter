@@ -16,7 +16,7 @@ void monochrome16i(uint64_t size, uint8_t *in, uint8_t *out)
         *pout++ = m;
     }
 }
-#elif ! defined(__arm64__) && ! ( defined(__clang__) && __clang_major__ >= 13)
+#elif ! defined(__arm64__)
 static const __fp16 mono_r = 0.299;
 static const __fp16 mono_g = 0.587;
 static const __fp16 mono_b = 0.114;
@@ -35,7 +35,7 @@ void monochrome16i(uint64_t size, uint8_t *in, uint8_t *out)
         *pout++ = m;
     }
 }
-#else // defined(__arm64__) || ( defined(__clang__) && __clang_major__ >= 13)
+#else // defined(__arm64__)
 
 #include <arm_neon.h>
 
