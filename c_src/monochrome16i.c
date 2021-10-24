@@ -37,7 +37,9 @@ void monochrome16i(uint64_t size, uint8_t *in, uint8_t *out)
 }
 #else // defined(__arm64__)
 
+#ifdef __ARM_NEON
 #include <arm_neon.h>
+#endif // __ARM_NEON
 
 static __fp16 fp16_mono_r[] = {
     0.299,

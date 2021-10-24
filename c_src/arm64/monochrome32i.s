@@ -20,12 +20,12 @@ _monochrome32i:                         ; @monochrome32i
 LBB0_2:                                 ; =>This Inner Loop Header: Depth=1
 	ld3.16b	{ v3, v4, v5 }, [x1], #48
 	ushll.8h	v6, v3, #0
-	ushll.8h	v7, v4, #0
-	ushll2.8h	v16, v3, #0
+	ushll2.8h	v7, v3, #0
+	ushll.8h	v16, v4, #0
 	ushll2.8h	v17, v4, #0
 	ushll.4s	v18, v6, #0
 	ucvtf.4s	v18, v18
-	ushll.4s	v19, v7, #0
+	ushll.4s	v19, v16, #0
 	ucvtf.4s	v19, v19
 	fmul.4s	v18, v18, v0
 	ushll.8h	v20, v5, #0
@@ -36,30 +36,30 @@ LBB0_2:                                 ; =>This Inner Loop Header: Depth=1
 	fmul.4s	v5, v5, v2
 	ushll2.4s	v6, v6, #0
 	ucvtf.4s	v6, v6
-	ushll2.4s	v7, v7, #0
-	ucvtf.4s	v7, v7
+	ushll2.4s	v16, v16, #0
+	ucvtf.4s	v16, v16
 	fmul.4s	v6, v6, v0
 	fadd.4s	v4, v4, v18
-	fmul.4s	v7, v7, v1
-	fadd.4s	v6, v7, v6
-	ushll2.4s	v7, v20, #0
-	ucvtf.4s	v7, v7
-	fmul.4s	v7, v7, v2
+	fmul.4s	v16, v16, v1
+	fadd.4s	v6, v16, v6
+	ushll2.4s	v16, v20, #0
+	ucvtf.4s	v16, v16
+	fmul.4s	v16, v16, v2
 	fadd.4s	v4, v5, v4
-	ushll.4s	v5, v16, #0
+	ushll.4s	v5, v7, #0
 	ucvtf.4s	v5, v5
 	ushll.4s	v18, v17, #0
 	ucvtf.4s	v18, v18
 	fmul.4s	v5, v5, v0
-	fadd.4s	v6, v7, v6
-	fmul.4s	v7, v18, v1
-	fadd.4s	v5, v7, v5
-	ushll.4s	v7, v3, #0
-	ucvtf.4s	v7, v7
-	fmul.4s	v7, v7, v2
+	fadd.4s	v6, v16, v6
+	fmul.4s	v16, v18, v1
+	fadd.4s	v5, v16, v5
+	ushll.4s	v16, v3, #0
+	ucvtf.4s	v16, v16
+	fmul.4s	v16, v16, v2
 	fcvtnu.4s	v4, v4
-	fadd.4s	v5, v7, v5
-	ushll2.4s	v7, v16, #0
+	fadd.4s	v5, v16, v5
+	ushll2.4s	v7, v7, #0
 	ucvtf.4s	v7, v7
 	ushll2.4s	v16, v17, #0
 	ucvtf.4s	v16, v16

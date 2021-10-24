@@ -18,7 +18,9 @@ void monochrome32i(uint64_t size, uint8_t *in, uint8_t *out)
 }
 #else // (defined(__arm64__) || defined(__aarch64__))
 
+#ifdef __ARM_NEON
 #include <arm_neon.h>
+#endif // __ARM_NEON
 
 static float float_mono_r[] = {
     0.299,
