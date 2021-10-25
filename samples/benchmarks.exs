@@ -36,6 +36,16 @@ defmodule Mono do
       IO.puts "#{Nx.to_scalar(sub_abs_max(expected, actual))}: #{message}"
     end
   end
+
+  defp cuda_sub() do
+    System.cmd("opencv_version", ["--verbose"])
+    |> elem(0)
+    |> String.split("\n")
+    |> Enum.filter(& String.match?(&1, ~r/CUDA.*YES/))
+    |> Enum.count()
+  end
+
+  def cuda?(), do: cuda_sub() > 1
 end
 
 input = MonochromeFilter.init_random_pixel()
@@ -76,7 +86,7 @@ benches =
   end
 
 benches =
-  if System.get_env("OpenCV_TARGET") == "cuda" do
+  if Mono.cuda?() do
     Mono.assert_result(result, CvMonochrome.cv_monochrome_gpu(input), "CvMonochrome.cv_monochrome_gpu")
 
     Map.merge(benches, %{
