@@ -1,6 +1,8 @@
 #ifndef CV_MONOCHROME_H
 #define CV_MONOCHROME_H
 
+#include <stdint.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
