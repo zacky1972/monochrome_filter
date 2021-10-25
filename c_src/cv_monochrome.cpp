@@ -5,6 +5,11 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+#ifdef EXIST_CUDA
+#include <opencv2/core/cuda.hpp>
+#include <opencv2/cudaarithm.hpp>
+#include <opencv2/cudaimgproc.hpp>
+#endif
 
 #include "cv_monochrome.h"
 
@@ -12,19 +17,23 @@ extern "C" void cv_monochrome(uint64_t size, uint8_t *in, uint8_t *out)
 {
     uint64_t x = (uint64_t)sqrt(size);
     cv::Mat inMat = cv::Mat(x, x, CV_8UC3, in);
-    cv::Mat outMat = cv::Mat(x, x, CV_8UC3);
+    cv::Mat outMat;
     cv::cvtColor(inMat, outMat, cv::COLOR_RGB2GRAY);
     memcpy(out, outMat.ptr(), size);
 }
 
-
-/*
-cv::Exception: OpenCV(4.5.3) 
-/tmp/opencv-20210728-67818-iouvb6/opencv-4.5.3/modules/imgproc/src/color.simd_helpers.hpp:
-92: error: (-2:Unspecified error) in function 
-'cv::impl::(anonymous namespace)::CvtHelper<cv::impl::(anonymous namespace)::Set<3, 4, -1>, 
-cv::impl::(anonymous namespace)::Set<1, -1, -1>, 
-cv::impl::(anonymous namespace)::Set<0, 2, 5>, 
-cv::impl::(anonymous namespace)::NONE>::CvtHelper(cv::InputArray, cv::OutputArray, int) 
-[VScn = cv::impl::(anonymous namespace)::Set<3, 4, -1>, VDcn = cv::impl::(anonymous namespace)::Set<1, -1, -1>, VDepth = cv::impl::(anonymous namespace)::Set<0, 2, 5>, sizePolicy = cv::impl::(anonymous namespace)::NONE]'
-*/
+extern "C" void cv_monochrome_gpu(uint64_t size, uint8_t *in, uint8_t *out)
+{
+    uint64_t x = (uint64_t)sqrt(size);
+    cv::Mat inMat = cv::Mat(x, x, CV_8UC3, in);
+    cv::Mat outMat = cv::Mat(x, x, CV_8UC3);
+#ifndef EXIST_CUDA
+    cv::cvtColor(inMat, outMat, cv::COLOR_RGB2GRAY);
+#else // define(EXIST_CUDA)
+    cv::cuda::GpuMat inMatG, outMatG;
+    inMat.upload(inMatG);
+    cv::cuda::cvtColor(inMatG, outMatG, cv::COLOR_RGB2GRAY);
+    outMat.download(outMatG);
+#endif
+    memcpy(out, outMat.ptr(), size);
+}

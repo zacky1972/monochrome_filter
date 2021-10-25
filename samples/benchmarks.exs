@@ -69,7 +69,8 @@ benches =
       "xla jit-gpu 32" => fn -> Mono.cuda32(di) end,
       "xla jit-gpu 16" => fn -> Mono.cuda16(di) end,
       "xla jit-gpu keep 32" => fn -> Mono.cuda_keep32(di) end,
-      "xla jit-gpu keep 16" => fn -> Mono.cuda_keep16(di) end
+      "xla jit-gpu keep 16" => fn -> Mono.cuda_keep16(di) end,
+      "openCV gpu" => fn -> CvMonochrome.cv_monochrome_gpu(input) end
     })
   else
     benches
