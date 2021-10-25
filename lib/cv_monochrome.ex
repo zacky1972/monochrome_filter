@@ -1,0 +1,21 @@
+defmodule CvMonochrome do
+  require Logger
+
+  @moduledoc """
+  Documentation for `CvMonochrome`.
+  """
+
+  @on_load :load_nif
+
+  def load_nif do
+    nif_file = '#{Application.app_dir(:monochrome_filter, "priv/libcv")}'
+
+    case :erlang.load_nif(nif_file, 0) do
+      :ok -> :ok
+      {:error, {:reload, _}} -> :ok
+      {:error, reason} -> Logger.error("Failed to load NIF: #{inspect(reason)}")
+    end
+  end
+
+  def cv_monochrome_nif(_size, _x), do: raise("NIF cv_monochrome_nif/2 not implemented")
+end
