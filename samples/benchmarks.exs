@@ -33,7 +33,7 @@ defmodule Mono do
 
   def assert_result(expected, actual, message) do
     if Nx.to_scalar(sub_abs_max(expected, actual))  > 1 do
-      IO.puts "#{sub_abs_max(expected, actual)}: #{message}"
+      IO.puts "#{Nx.to_scalar(sub_abs_max(expected, actual))}: #{message}"
     end
   end
 end
@@ -46,6 +46,7 @@ Mono.assert_result(result, MonochromeFilterNif.monochrome32i(input), "Monochrome
 Mono.assert_result(result, MonochromeFilterNif.monochrome32ip(input), "MonochromeFilterNif.monochrome32ip")
 Mono.assert_result(result, MonochromeFilterNif.monochrome16(input), "MonochromeFilterNif.monochrome16")
 Mono.assert_result(result, MonochromeFilterNif.monochrome16i(input), "MonochromeFilterNif.monochrome16i")
+Mono.assert_result(result, CvMonochrome.cv_monochrome(input), "CvMonochrome.cv_monochrome")
 
 benches =   %{
   "Nx 32" => fn -> MonochromeFilter.monochrome_filter_32(input) end,
@@ -56,7 +57,8 @@ benches =   %{
   "nif 16" => fn -> MonochromeFilterNif.monochrome16(input) end,
   "nif 16 intrinsics" => fn -> MonochromeFilterNif.monochrome16i(input) end,
   "xla jit-cpu 32" => fn -> Mono.host32(input) end,
-  "xla jit-cpu 16" => fn -> Mono.host16(input) end
+  "xla jit-cpu 16" => fn -> Mono.host16(input) end,
+  "openCV cpu" => fn -> CvMonochrome.cv_monochrome(input) end
 }
 
 benches =
