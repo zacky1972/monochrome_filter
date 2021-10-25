@@ -65,6 +65,8 @@ benches =
   if System.get_env("EXLA_TARGET") == "cuda" do
     di = Nx.backend_transfer(input, {EXLA.DeviceBackend, client: :cuda})
 
+    Mono.assert_result(result, CvMonochrome.cv_monochrome_gpu(input), "CvMonochrome.cv_monochrome_gpu")
+
     Map.merge(benches, %{
       "xla jit-gpu 32" => fn -> Mono.cuda32(di) end,
       "xla jit-gpu 16" => fn -> Mono.cuda16(di) end,
