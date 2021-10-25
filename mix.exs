@@ -9,6 +9,10 @@ defmodule MonochromeFilter.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       compilers: [:elixir_make | Mix.compilers()],
+      aliases: [
+        compile: [&compile_cv/1, "compile"],
+        clean: [&clean_cv/1, "clean"]
+      ],
       make_targets: ["all"],
       make_clean: ["clean"],
       build_embedded: true
@@ -30,5 +34,13 @@ defmodule MonochromeFilter.MixProject do
       {:elixir_make, "~> 0.4", runtime: false},
       {:benchee, "~> 1.0", only: :dev}
     ]
+  end
+
+  defp compile_cv(_args) do
+    System.cmd("make", ["-f", "Makefile.cv"])
+  end
+
+  defp clean_cv(_args) do
+    System.cmd("make", ["-f", "Makefile.cv", "clean"])
   end
 end

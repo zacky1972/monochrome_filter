@@ -45,6 +45,7 @@ ASM_x86_64 =
 ASM = ${ASM_$(shell uname -m)}
 
 all: $(PRIV) $(BUILD) $(NIF) $(ASM)
+	make -f Makefile.cv
 
 $(PRIV) $(BUILD):
 	mkdir -p $@
@@ -69,3 +70,4 @@ $(NIF): $(OBJ)
 
 clean:
 	$(RM) $(NIF) $(OBJ)
+	make -f Makefile.cv clean
