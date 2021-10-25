@@ -40,8 +40,10 @@ ifeq ($(CROSSCOMPILE),)
 endif
 
 ifeq ($(shell uname -s),Linux)
-	ifneq (,$(wildcard /usr/local/cuda/version.txt))
-		CXXFLAGS += -D EXIST_CUDA
+	ifeq ($(shell which opencv_read_cuda),)
+		ifeq ($(shell opencv_read_cuda),YES)
+			CXXFLAGS += -D EXIST_CUDA
+		endif
 	endif
 endif
 
