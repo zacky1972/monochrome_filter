@@ -45,7 +45,7 @@ defmodule Mono do
     |> Enum.count()
   end
 
-  def cuda?(), do: cuda_sub() > 1
+  def cuda?(), do: cuda_sub() > 0
 end
 
 input = MonochromeFilter.init_random_pixel()
